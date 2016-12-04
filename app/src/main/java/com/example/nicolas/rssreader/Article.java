@@ -15,14 +15,6 @@ public class Article {
     private URL picture;
     private Date pubDate;
 
-    public Article(String title, String description, URL url, URL picture, Date pubDate){
-        this.title = title;
-        this.description = description;
-        this.url = url;
-        this.picture = picture;
-        this.pubDate = pubDate;
-    }
-
     public Article(){
 
     }

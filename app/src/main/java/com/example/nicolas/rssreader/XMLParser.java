@@ -27,12 +27,9 @@ public class XMLParser {
 
     public ArrayList<Article> parse(XmlPullParser parser){
 
-        this.articles = new ArrayList<Article>();
+        this.articles = new ArrayList<>();
 
-        XmlPullParserFactory pullParserFactory;
         try {
-            // pullParserFactory = XmlPullParserFactory.newInstance();
-            // XmlPullParser parser = getResources().getXml(R.xml.beers);
 
             parseXML(parser);
 
@@ -43,7 +40,6 @@ public class XMLParser {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Log.d("TEST", "in onCreate() XMLParser");
 
         return this.articles;
 
@@ -54,7 +50,6 @@ public class XMLParser {
 
     private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
-        Log.d("DEBUG", "in parseXML");
         int eventType = parser.getEventType();
         Article currentArticle = null;
 
@@ -62,16 +57,12 @@ public class XMLParser {
             String name = null;
             switch (eventType){
                 case XmlPullParser.START_DOCUMENT:
-                    //Log.d("TEST", "START_DOCUMENT");
                     break;
                 case XmlPullParser.START_TAG:
-                    //Log.d("TEST", "START_TAG");
                     name = parser.getName();
-                    if (name.equals("item")){
-                        Log.d("TEST", "New Article");
+                    if (name.equals("item")){ //every articles are inside <item>
                         currentArticle = new Article();
                     } else if (currentArticle != null){
-                        Log.d("NAME: ", name);
                         if (name.equals("link")){
                             currentArticle.setUrl(new URL(parser.nextText()));
                         } else if (name.equals("title")){
@@ -94,16 +85,13 @@ public class XMLParser {
                     break;
                 case XmlPullParser.END_TAG:
                     name = parser.getName();
-                    //Log.d("TEST", "END XML");
                     if (name.equalsIgnoreCase("item") && currentArticle!= null){
-                        Log.d("TEST", "Adding article");
                         articles.add(currentArticle);
                     }
             }
             eventType = parser.next();
         }
 
-        //printBeers(beers);
     }
 
 

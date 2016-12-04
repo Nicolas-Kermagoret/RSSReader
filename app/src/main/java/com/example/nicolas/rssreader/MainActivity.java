@@ -4,13 +4,11 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -36,24 +34,12 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         try {
-            URL url = new URL("http://www.lemonde.fr/rss/une.xml");
-            new GetFeedTask().execute(url);
+            URL url = new URL("http://www.lemonde.fr/rss/une.xml"); //RSS fedd URL
+            new GetFeedTask().execute(url); //get articles from rss feed outside the UI Thread
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-
-
-//        try{
-//            URL url = new URL("http://www.ouest-france.fr/rss-en-continu.xml");
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            in = connection.getInputStream();
-//            Log.d("coucou", "coucou");
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
 
@@ -68,19 +54,11 @@ public class MainActivity extends AppCompatActivity {
             String[] rssFeed = new String[urls.length];
             XMLParser parser = new XMLParser();
 
-            for(int i=0; i<urls.length; i++){
+            for(int i=0; i<urls.length; i++){ //read URL send to the task and parse them to populate Article list
                 HttpURLConnection connection = null;
                 try {
                     connection = (HttpURLConnection) urls[i].openConnection();
                     in = connection.getInputStream();
-//                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                    byte[] buffer = new byte[1024];
-//                    for (int count; (count = in.read(buffer)) != -1; ) {
-//                        out.write(buffer, 0, count);
-//                    }
-//                    byte[] response = out.toByteArray();
-//                    rssFeed[i] = new String(response, "UTF-8");
-//                    Log.d("Flux RSS", rssFeed[i]);
 
                     XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
                     XmlPullParser xpp = xppf.newPullParser();
