@@ -1,5 +1,8 @@
 package com.example.nicolas.rssreader;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
 import java.net.URL;
 import java.util.Date;
 
@@ -12,7 +15,7 @@ public class Article {
     private String title;
     private String description;
     private URL url;
-    private URL picture;
+    private Bitmap picture;
     private Date pubDate;
 
     public Article(){
@@ -43,11 +46,11 @@ public class Article {
         this.url = url;
     }
 
-    public URL getPicture() {
+    public Bitmap getPicture() {
         return picture;
     }
 
-    public void setPicture(URL picture) {
+    public void setPicture(Bitmap picture) {
         this.picture = picture;
     }
 

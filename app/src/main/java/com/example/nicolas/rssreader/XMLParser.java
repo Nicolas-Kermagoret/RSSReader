@@ -1,5 +1,8 @@
 package com.example.nicolas.rssreader;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -9,6 +12,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -78,7 +82,13 @@ public class XMLParser {
                                 e.printStackTrace();
                             }
                         }else if (name.equals("enclosure")){
-                            currentArticle.setPicture(new URL(parser.getAttributeValue(null, "url")));
+
+                            URL url = new URL(parser.getAttributeValue(null, "url"));
+
+                            InputStream is = url.openStream();
+                            Bitmap bitmap = BitmapFactory.decodeStream(is);
+                            currentArticle.setPicture(bitmap);
+                            //currentArticle.setPicture(new URL(parser.getAttributeValue(null, "url")));
                             parser.nextText();
                         }
                     }

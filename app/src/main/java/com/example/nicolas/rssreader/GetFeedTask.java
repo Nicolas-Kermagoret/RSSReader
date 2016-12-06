@@ -1,5 +1,7 @@
 package com.example.nicolas.rssreader;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +33,7 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
     private ListView mListView;
     private MainActivity activity;
     private ListAdapter adapter;
-    private List<Map<String, String>> liste;
+    private List liste;
 
     public GetFeedTask(MainActivity activity){
         this.activity = activity;
@@ -41,32 +43,13 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
     protected  Void doInBackground(URL... urls) {
 
         this.getFeed(urls);
-        this.displayArticles();
-
         return null;
     }
 
     @Override
     protected void onPostExecute(Void toto){
-        //SimpleAdapter instanciation with data to display in ListView
-
-        String[] from = {"title", "date", "image"};
-        int[] to = {R.id.article_title_list, R.id.article_date_list, R.id.article_picture_list};
-
-        this.adapter = new SimpleAdapter(this.activity, liste, R.layout.list_item, from, to);
-
-        this.mListView.setAdapter(this.adapter);
-
-        this.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-//                    Intent intent = new Intent(MainActivity.this.getApplicationContext(), (Class)BeerActivity.class);
-//                    intent.putExtra("Beer", (Serializable)MainActivity.this.articles.get(position));
-//                    MainActivity.this.startActivity(intent);
-
-            }
-        });
+        this.mListView = (ListView) this.activity.findViewById(R.id.listView);
+        this.mListView.setAdapter(new ArticleListAdapter(this.activity, this.articles));
     }
 
     public void getFeed(URL... urls){
@@ -94,30 +77,6 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
                 e.printStackTrace();
             }
 
-        }
-    }
-
-    public void displayArticles(){
-
-        this.mListView = (ListView) this.activity.findViewById(R.id.listView);
-
-        this.liste = new ArrayList<Map<String, String>>();
-        HashMap<String, String> element;
-
-        //Put title, publication date and picture of the article in a list to display
-
-        for(int i=0; i<this.articles.size(); i++){
-            element = new HashMap<String, String>();
-            element.put("title",this.articles.get(i).getTitle());
-            element.put("date", this.articles.get(i).getPubDate().toString());
-
-            int picturePath = this.activity.getResources().getIdentifier("macaque", "drawable", this.activity.getPackageName());
-            if (picturePath == 0){
-                picturePath = this.activity.getResources().getIdentifier("macaque", "drawable", this.activity.getPackageName());
-            }
-
-            element.put("image",Integer.toString(picturePath));
-            this.liste.add(element);
         }
     }
 
