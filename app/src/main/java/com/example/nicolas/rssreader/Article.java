@@ -3,6 +3,7 @@ package com.example.nicolas.rssreader;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import java.util.Date;
  * Created by nicolas on 03/12/16.
  */
 
-public class Article {
+public class Article implements Serializable {
 
     private String title;
     private String description;
@@ -20,6 +21,14 @@ public class Article {
 
     public Article(){
 
+    }
+
+    public Article(String title, String description, URL url, Bitmap picture, Date pubDate) {
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.picture = picture;
+        this.pubDate = pubDate;
     }
 
     public String getTitle() {
