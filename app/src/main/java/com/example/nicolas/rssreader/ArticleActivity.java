@@ -1,10 +1,16 @@
 package com.example.nicolas.rssreader;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.net.MalformedURLException;
@@ -44,6 +50,28 @@ public class ArticleActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        ImageView img = (ImageView) this.findViewById(R.id.article_picture);
+        img.setImageBitmap(bmp);
+
+        TextView title = (TextView) this.findViewById(R.id.article_title);
+        title.setText(this.article.getTitle());
+
+        TextView pubDate= (TextView) this.findViewById(R.id.article_date);
+        pubDate.setText(this.article.getPubDate().toString());
+
+        TextView description= (TextView) this.findViewById(R.id.article_description);
+        description.setText(this.article.getDescription());
+
+        Button websiteButton = (Button) this.findViewById(R.id.article_url);
+
+        websiteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse(ArticleActivity.this.article.getUrl().toString());
+                Intent launchBrower = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(launchBrower);
+            }
+        });
 
     }
 
