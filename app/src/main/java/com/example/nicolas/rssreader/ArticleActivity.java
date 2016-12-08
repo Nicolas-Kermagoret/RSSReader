@@ -20,6 +20,7 @@ import java.util.Date;
 
 /**
  * Created by nicolas on 06/12/16.
+ * Activity to display a selected article and go to the complete article in a web browser
  */
 
 public class ArticleActivity extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class ArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.article_activity);
 
+        //Get the picture via the local storage, bitmap too big to go in Intent
         Bitmap bmp = null;
         String filename = getIntent().getStringExtra("image");
         try {
@@ -50,6 +52,7 @@ public class ArticleActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //Put all the articles infos in the View
         ImageView img = (ImageView) this.findViewById(R.id.article_picture);
         img.setImageBitmap(bmp);
 
@@ -65,6 +68,7 @@ public class ArticleActivity extends AppCompatActivity {
 
         Button websiteButton = (Button) this.findViewById(R.id.article_url);
 
+        //Go to the article's URL on the device web browser
         websiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

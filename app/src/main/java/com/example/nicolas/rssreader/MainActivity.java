@@ -11,6 +11,11 @@ import android.widget.Toast;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Created by nicolas on 08/12/16.
+ * MainActivity, display all the articles from the feed as a ListView
+ * Pull to refresh the article list
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.checkInternetConnection();
-
         this.getFeed();
 
         final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
 
+        //If the user pull the list to refresh the article list
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Try to get the rss feed, if no connection available check if there is some article saved on the device's storage
     public void getFeed(){
         if(!this.isConnected){
             Toast toast = Toast.makeText(this.getApplicationContext(), "No internet connection", Toast.LENGTH_SHORT);
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //check if an internet connection is available on the device
     public void checkInternetConnection(){
         ConnectivityManager cm =
                 (ConnectivityManager)this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

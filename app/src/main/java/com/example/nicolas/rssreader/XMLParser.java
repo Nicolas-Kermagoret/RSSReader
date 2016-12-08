@@ -18,6 +18,7 @@ import java.util.Locale;
 
 /**
  * Created by nicolas on 03/12/16.
+ * Class to parse the RSS feed
  */
 
 public class XMLParser {
@@ -47,7 +48,7 @@ public class XMLParser {
 
 
 
-
+    //Fill articles with information in the rss feed
     private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
         int eventType = parser.getEventType();

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Created by nicolas on 08/12/16.
+ * Class to save articles from the rss feed on the internal storage
  */
 
 public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
@@ -34,6 +35,7 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
     @Override
     protected Void doInBackground(Void... params) {
 
+        //Delete previous saved articles
         try {
             File folder = new File(this.activity.getFilesDir().getAbsolutePath());
             FileUtils.deleteDirectory(folder);
@@ -41,6 +43,7 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
             e.printStackTrace();
         }
 
+        //Save every picture in a seperate file, the picture name is a part of the picture URL
         for (Article article : this.articles){
             String url = article.getPictureURL();
             String filename = url.substring(url.lastIndexOf("/")+1);
@@ -59,6 +62,7 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
 
         }
 
+        //GsonBuilder to exclude the bitmap of the article in the json file
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
 

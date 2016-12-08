@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by nicolas on 06/12/16.
+ * Adapter to display correctly articles in a ListView
  */
 
 public class ArticleListAdapter extends BaseAdapter {

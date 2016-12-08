@@ -5,20 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.apache.commons.io.FileUtils;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +25,7 @@ import java.util.ArrayList;
 
 /**
  * Created by nicolas on 08/12/16.
+ * AsyncTask to load the feed from the internal storage when no internet connection is available and then display them in a ListView
  */
 
 public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
@@ -53,6 +47,7 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
     }
 
     @Override
+    //Fill Listview with the articles from the internal storage
     protected void onPostExecute(Void toto){
         if (!dataToLoad){
             TextView noInternet = (TextView) this.activity.findViewById(R.id.no_internet);
@@ -65,7 +60,6 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
             this.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    Log.d("Item number",Integer.toString(position));
 
                     Intent intent = new Intent(LoadFeedFromStorageTask.this.activity.getApplicationContext(), (Class)ArticleActivity.class);
 
@@ -97,11 +91,11 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
         }
     }
 
+    //Read the app folder to get saved articles
     public void getFeed(){
         this.articles = new ArrayList<Article>();
         String articlesJson = null;
 
-        Log.d("Folder", this.activity.getFilesDir().getAbsolutePath());
 
         File file = new File(this.activity.getFilesDir().getAbsolutePath()+"/articles.json");
 
