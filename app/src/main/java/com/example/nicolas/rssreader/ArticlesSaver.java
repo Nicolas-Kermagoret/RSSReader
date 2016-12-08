@@ -8,6 +8,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,6 +34,13 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
 
     @Override
     protected Void doInBackground(Void... params) {
+
+        try {
+            File folder = new File(this.activity.getFilesDir().getAbsolutePath());
+            FileUtils.deleteDirectory(folder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         for (Article article : this.articles){
 

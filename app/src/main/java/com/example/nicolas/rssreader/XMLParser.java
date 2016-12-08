@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by nicolas on 03/12/16.
@@ -74,7 +75,7 @@ public class XMLParser {
                         } else if (name.equals("description")){
                             currentArticle.setDescription(parser.nextText());
                         } else if (name.equals("pubDate")){
-                            DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm");
+                            DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
                             try {
                                 Date date = formatter.parse(parser.nextText());
                                 currentArticle.setPubDate(date);

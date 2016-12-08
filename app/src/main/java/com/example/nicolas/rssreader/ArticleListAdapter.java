@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -57,7 +59,8 @@ public class ArticleListAdapter extends BaseAdapter {
 
         Article article = (Article) listData.get(position);
         holder.titleView.setText(article.getTitle());
-        holder.dateView.setText(article.getPubDate().toString());
+        Format formatter = new SimpleDateFormat("EEE, dd MMM HH:mm");
+        holder.dateView.setText(formatter.format(article.getPubDate()));
         holder.imageView.setImageBitmap(article.getPicture());
         return convertView;
     }

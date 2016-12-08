@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -56,8 +58,9 @@ public class ArticleActivity extends AppCompatActivity {
         TextView title = (TextView) this.findViewById(R.id.article_title);
         title.setText(this.article.getTitle());
 
+        Format formatter = new SimpleDateFormat("EEE, dd MMM HH:mm");
         TextView pubDate= (TextView) this.findViewById(R.id.article_date);
-        pubDate.setText(this.article.getPubDate().toString());
+        pubDate.setText(formatter.format(this.article.getPubDate()));
 
         TextView description= (TextView) this.findViewById(R.id.article_description);
         description.setText(this.article.getDescription());

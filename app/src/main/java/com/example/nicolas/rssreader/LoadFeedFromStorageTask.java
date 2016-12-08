@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,6 +47,7 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
     private MainActivity activity;
     private ListAdapter adapter;
     private List liste;
+    private boolean dataToLoad = true;
 
     public LoadFeedFromStorageTask(MainActivity activity){
         this.activity = activity;
@@ -60,42 +62,47 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onPostExecute(Void toto){
-        this.mListView = (ListView) this.activity.findViewById(R.id.listView);
-        this.mListView.setAdapter(new ArticleListAdapter(this.activity, this.articles));
+        if (!dataToLoad){
+            TextView noInternet = (TextView) this.activity.findViewById(R.id.no_internet);
+            noInternet.setVisibility(View.VISIBLE);
+        }
+        else{
+            this.mListView = (ListView) this.activity.findViewById(R.id.listView);
+            this.mListView.setAdapter(new ArticleListAdapter(this.activity, this.articles));
 
-        this.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Log.d("Item number",Integer.toString(position));
+            this.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    Log.d("Item number",Integer.toString(position));
 
-                Intent intent = new Intent(LoadFeedFromStorageTask.this.activity.getApplicationContext(), (Class)ArticleActivity.class);
+                    Intent intent = new Intent(LoadFeedFromStorageTask.this.activity.getApplicationContext(), (Class)ArticleActivity.class);
 
-                String filename = "bitmap.png";
-                FileOutputStream stream = null;
-                try {
-                    stream =LoadFeedFromStorageTask.this.activity.openFileOutput(filename, Context.MODE_PRIVATE);
-                    LoadFeedFromStorageTask.this.articles.get(position).getPicture().compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    stream.close();
+                    String filename = "bitmap.png";
+                    FileOutputStream stream = null;
+                    try {
+                        stream =LoadFeedFromStorageTask.this.activity.openFileOutput(filename, Context.MODE_PRIVATE);
+                        LoadFeedFromStorageTask.this.articles.get(position).getPicture().compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        stream.close();
 
-                    //Pop intent
-                    intent.putExtra("image", filename);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                        //Pop intent
+                        intent.putExtra("image", filename);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    intent.putExtra("title", LoadFeedFromStorageTask.this.articles.get(position).getTitle());
+                    intent.putExtra("description", LoadFeedFromStorageTask.this.articles.get(position).getDescription());
+                    intent.putExtra("pubDate", LoadFeedFromStorageTask.this.articles.get(position).getPubDate().getTime());
+                    intent.putExtra("url", LoadFeedFromStorageTask.this.articles.get(position).getUrl().toString());
+
+                    LoadFeedFromStorageTask.this.activity.startActivity(intent);
+
                 }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                intent.putExtra("title", LoadFeedFromStorageTask.this.articles.get(position).getTitle());
-                intent.putExtra("description", LoadFeedFromStorageTask.this.articles.get(position).getDescription());
-                intent.putExtra("pubDate", LoadFeedFromStorageTask.this.articles.get(position).getPubDate().getTime());
-                intent.putExtra("url", LoadFeedFromStorageTask.this.articles.get(position).getUrl().toString());
-
-                LoadFeedFromStorageTask.this.activity.startActivity(intent);
-
-            }
-        });
-
+            });
+        }
     }
 
     public void getFeed(){
@@ -125,40 +132,36 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
         }
 
         Article[] articlesfromJson= gson.fromJson(articlesJson, Article[].class);
-        for(Article articlejson : articlesfromJson){
-            this.articles.add(articlejson);
-        }
 
-        File folder = new File(this.activity.getFilesDir().getAbsolutePath());
-        Log.d("Files", folder.listFiles().toString());
-//        try {
-//            FileUtils.deleteDirectory(folder);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        if (articlesfromJson != null){
 
-        for(Article article : this.articles){
-            Bitmap bmp = null;
-            String url = article.getPictureURL();
-            String filename = url.substring(url.lastIndexOf("/")+1);
-
-            try {
-                FileInputStream is = this.activity.openFileInput(filename);
-                bmp = BitmapFactory.decodeStream(is);
-                is.close();
-                article.setPicture(bmp);
-            } catch (Exception e) {
-                e.printStackTrace();
+            for(Article articlejson : articlesfromJson){
+                this.articles.add(articlejson);
             }
+
+            File folder = new File(this.activity.getFilesDir().getAbsolutePath());
+
+
+            for (Article article : this.articles) {
+                Bitmap bmp = null;
+                String url = article.getPictureURL();
+                String filename = url.substring(url.lastIndexOf("/") + 1);
+
+                try {
+                    FileInputStream is = this.activity.openFileInput(filename);
+                    bmp = BitmapFactory.decodeStream(is);
+                    is.close();
+                    article.setPicture(bmp);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
 
-    }
-
-    public void saveArticles(){
-
-        ArticlesSaver saving = new ArticlesSaver(this.activity, this.articles);
-        saving.execute();
+        else{ this.dataToLoad=false; }
 
     }
+
 
 }
