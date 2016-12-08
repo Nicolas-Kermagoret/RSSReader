@@ -1,6 +1,9 @@
 package com.example.nicolas.rssreader;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,7 +32,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Article> articles;
     GetFeedTask asyncTask;
 
     @Override
@@ -36,21 +39,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        articles = new ArrayList<Article>();
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
 
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        try {
-            URL url = new URL("http://www.lemonde.fr/rss/une.xml"); //RSS fedd URL
-            this.asyncTask = new GetFeedTask(this);
-            this.asyncTask.execute(url); //get articles from rss feed outside the UI Thread
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        if(!isConnected){
+            TextView textConnection = (TextView) this.findViewById(R.id.no_internet);
+            textConnection.setVisibility(View.VISIBLE);
+            textConnection.setText("No Internet Connection :(");
         }
+        else{
+            try {
+                URL url = new URL("http://www.lemonde.fr/rss/une.xml"); //RSS fedd URL
+                this.asyncTask = new GetFeedTask(this);
+                this.asyncTask.execute(url); //get articles from rss feed outside the UI Thread
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
 
     }
 

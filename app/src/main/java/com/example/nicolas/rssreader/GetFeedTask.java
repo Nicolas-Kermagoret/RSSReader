@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
+
 /**
  * Created by nicolas on 05/12/16.
  */
@@ -70,7 +72,6 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
                     stream =GetFeedTask.this.activity.openFileOutput(filename, Context.MODE_PRIVATE);
                     GetFeedTask.this.articles.get(position).getPicture().compress(Bitmap.CompressFormat.PNG, 100, stream);
                     stream.close();
-                    GetFeedTask.this.articles.get(position).getPicture().recycle();
 
                     //Pop intent
                     intent.putExtra("image", filename);
@@ -120,5 +121,6 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
 
         }
     }
+
 
 }

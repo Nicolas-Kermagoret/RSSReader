@@ -8,8 +8,19 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:id="@+id/no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:visibility="gone"
+        />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:id="@+id/listView" >
+
+        </ListView>
 </LinearLayout>
