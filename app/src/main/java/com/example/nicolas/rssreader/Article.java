@@ -3,6 +3,8 @@ package com.example.nicolas.rssreader;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Date;
@@ -12,11 +14,15 @@ import java.util.Date;
  */
 
 public class Article implements Serializable {
-
+    @Expose
     private String title;
+    @Expose
     private String description;
+    @Expose
     private URL url;
+    @Expose(serialize = false, deserialize = false)
     private Bitmap picture;
+    @Expose
     private Date pubDate;
 
     public Article(){

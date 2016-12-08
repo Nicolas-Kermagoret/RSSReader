@@ -13,6 +13,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -21,8 +24,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +63,7 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
     protected void onPostExecute(Void toto){
         this.mListView = (ListView) this.activity.findViewById(R.id.listView);
         this.mListView.setAdapter(new ArticleListAdapter(this.activity, this.articles));
+        saveArticles();
 
         this.mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -122,5 +128,11 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
         }
     }
 
+    public void saveArticles(){
+
+            ArticlesSaver saving = new ArticlesSaver(this.activity, this.articles);
+            saving.execute();
+
+    }
 
 }
