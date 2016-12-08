@@ -22,12 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ConnectivityManager cm =
-                (ConnectivityManager)this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        this.isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        this.checkInternetConnection();
 
         this.getFeed();
 
@@ -36,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                checkInternetConnection();
                 getFeed();
                 swipeContainer.setRefreshing(false);
             }
@@ -66,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void checkInternetConnection(){
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        this.isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
     }
 
 }

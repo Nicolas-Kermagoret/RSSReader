@@ -2,14 +2,9 @@ package com.example.nicolas.rssreader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,7 +86,6 @@ public class XMLParser {
                             InputStream is = url.openStream();
                             Bitmap bitmap = BitmapFactory.decodeStream(is);
                             currentArticle.setPicture(bitmap);
-                            //currentArticle.setPicture(new URL(parser.getAttributeValue(null, "url")));
                             parser.nextText();
                         }
                     }

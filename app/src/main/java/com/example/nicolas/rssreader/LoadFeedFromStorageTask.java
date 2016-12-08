@@ -25,16 +25,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by nicolas on 08/12/16.
@@ -45,8 +39,6 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
     private ArrayList<Article> articles;
     private ListView mListView;
     private MainActivity activity;
-    private ListAdapter adapter;
-    private List liste;
     private boolean dataToLoad = true;
 
     public LoadFeedFromStorageTask(MainActivity activity){
@@ -138,9 +130,6 @@ public class LoadFeedFromStorageTask extends AsyncTask<Void, Integer, Void> {
             for(Article articlejson : articlesfromJson){
                 this.articles.add(articlejson);
             }
-
-            File folder = new File(this.activity.getFilesDir().getAbsolutePath());
-
 
             for (Article article : this.articles) {
                 Bitmap bmp = null;

@@ -1,7 +1,6 @@
 package com.example.nicolas.rssreader;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import com.google.gson.annotations.Expose;
 

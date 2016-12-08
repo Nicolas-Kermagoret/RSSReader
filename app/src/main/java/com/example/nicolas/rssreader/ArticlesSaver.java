@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
@@ -43,11 +42,6 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
         }
 
         for (Article article : this.articles){
-
-//            String filename = this.activity.getFilesDir().getAbsolutePath() + "/" + article.getTitle()+".png";
-//            filename = Normalizer.normalize(filename, Normalizer.Form.NFD);
-//            filename = filename.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
-//            filename = filename.replaceAll(" ", "");
             String url = article.getPictureURL();
             String filename = url.substring(url.lastIndexOf("/")+1);
             FileOutputStream stream = null;
@@ -73,8 +67,8 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(this.activity.getApplicationContext().openFileOutput("articles.json", Context.MODE_PRIVATE));
 
-            String data_beer = gson.toJson(this.articles);
-            outputStreamWriter.write(data_beer);
+            String data_article = gson.toJson(this.articles);
+            outputStreamWriter.write(data_article);
             outputStreamWriter.close();
 
 
