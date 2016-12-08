@@ -47,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
                 activeNetwork.isConnectedOrConnecting();
 
         if(!isConnected){
-            TextView textConnection = (TextView) this.findViewById(R.id.no_internet);
-            textConnection.setVisibility(View.VISIBLE);
-            textConnection.setText("No Internet Connection :(");
+//            TextView textConnection = (TextView) this.findViewById(R.id.no_internet);
+//            textConnection.setVisibility(View.VISIBLE);
+//            textConnection.setText("No Internet Connection :(");
+            LoadFeedFromStorageTask loasTask = new LoadFeedFromStorageTask(this);
+            loasTask.execute();
         }
         else{
             try {

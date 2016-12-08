@@ -24,17 +24,20 @@ public class Article implements Serializable {
     private Bitmap picture;
     @Expose
     private Date pubDate;
+    @Expose
+    private String pictureURL;
 
     public Article(){
 
     }
 
-    public Article(String title, String description, URL url, Bitmap picture, Date pubDate) {
+    public Article(String title, String description, URL url, Bitmap picture, Date pubDate, String pictureURL) {
         this.title = title;
         this.description = description;
         this.url = url;
         this.picture = picture;
         this.pubDate = pubDate;
+        this.pictureURL = pictureURL;
     }
 
     public String getTitle() {
@@ -76,5 +79,14 @@ public class Article implements Serializable {
     public void setPubDate(Date pubDate) {
         this.pubDate = pubDate;
     }
+
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
 
 }

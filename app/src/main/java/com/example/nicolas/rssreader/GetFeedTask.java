@@ -92,6 +92,7 @@ public class GetFeedTask extends AsyncTask<URL, Integer, Void> {
                 intent.putExtra("description", GetFeedTask.this.articles.get(position).getDescription());
                 intent.putExtra("pubDate", GetFeedTask.this.articles.get(position).getPubDate().getTime());
                 intent.putExtra("url", GetFeedTask.this.articles.get(position).getUrl().toString());
+                intent.putExtra("pictureURL", GetFeedTask.this.articles.get(position).getPictureURL());
 
                 GetFeedTask.this.activity.startActivity(intent);
 

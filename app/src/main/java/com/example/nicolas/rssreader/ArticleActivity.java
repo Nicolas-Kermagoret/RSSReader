@@ -45,7 +45,7 @@ public class ArticleActivity extends AppCompatActivity {
         d.setTime(getIntent().getLongExtra("pubDate", -1));
 
         try {
-            this.article = new Article(getIntent().getStringExtra("title"), getIntent().getStringExtra("description"), new URL(getIntent().getStringExtra("url")), bmp, d);
+            this.article = new Article(getIntent().getStringExtra("title"), getIntent().getStringExtra("description"), new URL(getIntent().getStringExtra("url")), bmp, d, getIntent().getStringExtra("pictureURL"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

@@ -85,6 +85,8 @@ public class XMLParser {
 
                             URL url = new URL(parser.getAttributeValue(null, "url"));
 
+                            currentArticle.setPictureURL(url.toString());
+
                             InputStream is = url.openStream();
                             Bitmap bitmap = BitmapFactory.decodeStream(is);
                             currentArticle.setPicture(bitmap);

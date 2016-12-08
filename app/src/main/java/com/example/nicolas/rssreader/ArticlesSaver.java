@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +34,12 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
 
         for (Article article : this.articles){
 
-            String filename = article.getTitle()+".png";
+//            String filename = this.activity.getFilesDir().getAbsolutePath() + "/" + article.getTitle()+".png";
+//            filename = Normalizer.normalize(filename, Normalizer.Form.NFD);
+//            filename = filename.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+//            filename = filename.replaceAll(" ", "");
+            String url = article.getPictureURL();
+            String filename = url.substring(url.lastIndexOf("/")+1);
             FileOutputStream stream = null;
             try {
                 stream =ArticlesSaver.this.activity.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -51,6 +57,7 @@ public class ArticlesSaver extends AsyncTask<Void, Integer, Void>{
 
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
+
 
         Gson gson = builder.create();
         try {
